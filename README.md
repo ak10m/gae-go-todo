@@ -25,3 +25,15 @@ go version go1.6 darwin/amd64
 ```
 $ brew install glide
 ```
+
+### Google Cloud SDK
+
+See
+
+* https://cloud.google.com/sdk/docs
+* https://cloud.google.com/appengine/docs/standard/go/download
+
+```
+$ gcloud components update
+$ gcloud components install app-engine-go
+```
