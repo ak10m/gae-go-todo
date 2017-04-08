@@ -1,5 +1,9 @@
 set -eu
 
+if type goenv >/dev/null 2>&1; then
+  goenv rehash
+fi
+
 export GOPATH=$PWD
 export PATH=$GOPATH/bin:$PATH
 
