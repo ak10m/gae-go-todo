@@ -1,0 +1,12 @@
+set -eu
+
+export GOPATH=$PWD
+export PATH=$GOPATH/bin:$PATH
+
+cat <<-EOS
+
+$(go version) ($(which go))
+
+GOPATH: $GOPATH
+
+EOS
