@@ -3,6 +3,8 @@ TODO List Application on GAE
 
 * go 1.6
 * glide
+* direnv
+* goapp
 * Google App Engine
 * Google Cloud Datastore
 
@@ -26,7 +28,13 @@ go version go1.6 darwin/amd64
 $ brew install glide
 ```
 
-### Google Cloud SDK
+### install goapp
+
+```
+$ brew install go-app-engine-64
+```
+
+### install Google Cloud SDK
 
 See
 
@@ -37,3 +45,18 @@ See
 $ gcloud components update
 $ gcloud components install app-engine-go
 ```
+
+### run dev server
+
+See https://cloud.google.com/appengine/docs/standard/go/tools/using-local-server
+
+```
+$ dev_appserver.py [PATH_TO_YOUR_APP]
+```
+
+or
+
+```
+$ goapp serve [PATH_TO_YOUR_APP]
+```
+
