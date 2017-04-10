@@ -14,5 +14,5 @@ $(go version) ($(which go))
 
 GOPATH: $GOPATH
  GOBIN: $GOBIN
-
+  PATH: $PATH
 EOS

@@ -2,8 +2,9 @@ TODO List Application on GAE
 =======================================
 
 * go 1.6
+* [direnv](https://github.com/direnv/direnv)
+* [goenv](https://github.com/syndbg/goenv)
 * glide
-* direnv
 * goapp
 * Google App Engine
 * Google Cloud Datastore
@@ -12,25 +13,12 @@ TODO List Application on GAE
 Getting start
 ---------------------------------------
 
-### use goenv
+### install go, direnv, glide, goapp
 
 ```
-$ goenv install $(cat .go-version)
-$ goenv rehash
-$ direnv reload
-$ go version
-go version go1.6 darwin/amd64
-```
-
-### install glide
-
-```
+$ brew install go
+$ brew install direnv
 $ brew install glide
-```
-
-### install goapp
-
-```
 $ brew install go-app-engine-64
 ```
 
@@ -44,6 +32,13 @@ See
 ```
 $ gcloud components update
 $ gcloud components install app-engine-go
+```
+
+### prepare
+
+```
+$ cp .envrc{.example,}
+$ goenv install $(cat .go-version)
 ```
 
 ### run dev server
