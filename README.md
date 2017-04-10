@@ -55,3 +55,21 @@ or
 $ goapp serve [PATH_TO_YOUR_APP]
 ```
 
+
+TODO
+---------------------------------------
+
+### Package Manager
+
+* https://github.com/golang/dep
+
+### Testing
+
+* https://cloud.google.com/appengine/docs/standard/go/tools/localunittesting/
+* https://github.com/stretchr/testify
+
+### Lint
+
+* https://github.com/alecthomas/gometalinter
+
+
