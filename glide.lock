@@ -1,8 +1,0 @@
-hash: 8e01ed1e57a8fc090f670ff2738578355208074dfe65f73a6ac61396116549a5
-updated: 2017-04-09T18:33:42.210654021+09:00
-imports:
-- name: golang.org/x/tools
-  version: 24acc66eabead631b4e856255a9ad925549cee80
-  subpackages:
-  - cmd/gorename
-testImports: []

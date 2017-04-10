@@ -1,5 +1,0 @@
-package: .
-import:
-- package: golang.org/x/tools
-  subpackages:
-  - cmd/gorename
