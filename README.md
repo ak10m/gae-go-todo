@@ -20,6 +20,20 @@ Getting start
 go get -u github.com/golang/dep/...
 ```
 
+#### usage
+
+```
+$ dep ensure -update
+```
+
+... https://github.com/golang/dep/issues/149
+
+```
+$ rm lock.json manifest.json
+$ dep init
+```
+
+
 ### install Google Cloud SDK
 
 See

@@ -3,6 +3,8 @@ package todo
 import (
   "fmt"
   "net/http"
+  "google.golang.org/appengine"
+  "google.golang.org/appengine/datastore"
 )
 
 func init() {
