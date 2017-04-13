@@ -67,3 +67,6 @@ $RECYCLE.BIN/
 
 # dep
 vendor/
+
+# node
+node_modules/

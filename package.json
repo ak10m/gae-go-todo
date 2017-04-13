@@ -1,0 +1,28 @@
+{
+  "name": "gae-go-todo",
+  "version": "1.0.0",
+  "description": "TODO List Application on GAE",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --watch --progress",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ak10m/gae-go-todo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ak10m/gae-go-todo/issues"
+  },
+  "homepage": "https://github.com/ak10m/gae-go-todo#readme",
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015-riot": "^1.1.0",
+    "riot": "^3.4.1",
+    "riot-tag-loader": "^1.0.0",
+    "webpack": "^2.3.3"
+  }
+}
