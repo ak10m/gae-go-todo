@@ -2848,18 +2848,28 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var riot = __webpack_require__(1);
 //src: src/js/tags/todo.tag
-riot.tag2('todo', '<h3>{opts.title || \'Your Tasks\'}</h3> <ul> <li each="{task, i in tasks}">{task.title}</li> </ul> <form onsubmit="{add}"> <input ref="title" placeholder="Task"> <button>Add</button> </form>', 'todo h3 { border-bottom: 2px solid grey; }', '', function (opts) {
+riot.tag2('todo', '<h3>{opts.title || \'Your Tasks\'}</h3> <ul> <li each="{task, i in tasks}">{task.Title}</li> </ul> <form onsubmit="{add}" ref="newForm"> <input name="title" placeholder="Task"> <button>Add</button> </form>', 'todo h3 { border-bottom: 2px solid grey; }', '', function (opts) {
   this.tasks = [];
+
+  self = this;
 
   this.add = function (e) {
     e.preventDefault();
-    var titleInput = this.refs.title;
-    var title = titleInput.value;
-    if (title) {
-      this.tasks.push({ title: title });
+
+    var newForm = this.refs.newForm;
+    if (newForm.title) {
+      fetch('/todo', {
+        method: 'POST',
+        body: new FormData(newForm)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        self.tasks.push(json);
+        self.update();
+      });
     }
-    titleInput.value = '';
-    titleInput.focus();
+    newForm.title.value = '';
+    newForm.title.focus();
   }.bind(this);
 });
 
