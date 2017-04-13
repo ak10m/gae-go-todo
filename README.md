@@ -42,8 +42,11 @@ See
 * https://cloud.google.com/appengine/docs/standard/go/download
 
 ```
+$ export PATH=${GOOGLE_CLOUD_SDK_DIR}/bin:$PATH
 $ gcloud components update
 $ gcloud components install app-engine-go
+$ chmod +x ${GOOGLE_CLOUD_SDK_DIR}/platform/google_appengine/{goapp,godoc,gofmt}
+$ export PATH=${GOOGLE_CLOUD_SDK_DIR}/platform/google_appengine:$PATH
 ```
 
 ### run dev server

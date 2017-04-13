@@ -1,6 +1,7 @@
 package server
 
 import (
+  "os"
   "fmt"
   "net/http"
 )
@@ -10,5 +11,7 @@ func init() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprintf(w, "Request: %s - %s", r.Method, r.URL.Path)
+  //projectId := os.Getenv("GCP_PROJECT_ID")
+  projectId := os.Getenv("USER")
+  fmt.Fprintf(w, "[%s] %s %s", projectId, r.Method, r.URL.Path)
 }
