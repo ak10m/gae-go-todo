@@ -1,6 +1,10 @@
 runtime: go
 api_version: go1
 
+skip_files:
+- ^node_modules$
+- ^src$
+
 handlers:
 - url: /$
   static_files: static/index.html

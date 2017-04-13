@@ -2853,10 +2853,13 @@ riot.tag2('todo', '<h3>{opts.title || \'Your Tasks\'}</h3> <ul> <li each="{task,
 
   this.add = function (e) {
     e.preventDefault();
-    var input = this.refs.title;
-    this.tasks.push({ title: input.value });
-    input.value = '';
-    input.focus();
+    var titleInput = this.refs.title;
+    var title = titleInput.value;
+    if (title) {
+      this.tasks.push({ title: title });
+    }
+    titleInput.value = '';
+    titleInput.focus();
   }.bind(this);
 });
 
