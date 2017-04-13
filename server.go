@@ -7,7 +7,7 @@ import (
 )
 
 type Task struct {
-  Title string
+  Title string `json:"title"`
 }
 
 func init() {
@@ -19,7 +19,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
   switch r.Method {
     case "GET":
-      fmt.Fprintln(w, "fetch todo list")
+      fmt.Fprintln(w, "[]")
     case "POST":
       task := Task{ Title: r.FormValue("title") }
       out, err := json.Marshal(task)

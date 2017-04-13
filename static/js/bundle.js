@@ -2848,12 +2848,19 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var riot = __webpack_require__(1);
 //src: src/js/tags/todo.tag
-riot.tag2('todo', '<h3>{opts.title || \'Your Tasks\'}</h3> <ul> <li each="{task, i in tasks}">{task.Title}</li> </ul> <form onsubmit="{add}" ref="newForm"> <input name="title" placeholder="Task"> <button>Add</button> </form>', 'todo h3 { border-bottom: 2px solid grey; }', '', function (opts) {
-  this.tasks = [];
-
+riot.tag2('todo', '<h3>{opts.title || \'Your Tasks\'}</h3> <ul> <li each="{task, i in tasks}">{task.title}</li> </ul> <form onsubmit="{addTask}" ref="newForm"> <input name="title" placeholder="Task"> <button>Add</button> </form>', 'todo h3 { border-bottom: 2px solid grey; }', '', function (opts) {
   self = this;
 
-  this.add = function (e) {
+  this.loadTasks = function () {
+    fetch('/todo').then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      self.tasks = json;
+      self.update();
+    });
+  }.bind(this);
+
+  this.addTask = function (e) {
     e.preventDefault();
 
     var newForm = this.refs.newForm;
@@ -2871,6 +2878,10 @@ riot.tag2('todo', '<h3>{opts.title || \'Your Tasks\'}</h3> <ul> <li each="{task,
     newForm.title.value = '';
     newForm.title.focus();
   }.bind(this);
+
+  this.on('mount', function () {
+    self.loadTasks();
+  });
 });
 
 /***/ })
