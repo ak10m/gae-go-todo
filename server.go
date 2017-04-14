@@ -16,10 +16,18 @@ func init() {
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-
 	switch r.Method {
 	case "GET":
-		fmt.Fprintln(w, "[]")
+		tasks := []Task{
+			{ Title: "task 1" },
+			{ Title: "task 2" },
+		}
+		out, err := json.Marshal(tasks)
+		if err != nil {
+			w.WriteHeader(500)
+			return
+		}
+		fmt.Fprintln(w, string(out))
 	case "POST":
 		task := Task{Title: r.FormValue("title")}
 		out, err := json.Marshal(task)
@@ -31,5 +39,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, string(out))
 	default:
 		w.WriteHeader(400)
+		return
 	}
 }
