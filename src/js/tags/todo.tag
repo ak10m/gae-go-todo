@@ -2,7 +2,10 @@
   <h3>{ opts.title || 'Your Tasks' }</h3>
 
   <ul>
-    <li each={ task, i in tasks }>{ task.title }</li>
+    <li each={ task, i in tasks }>
+      <a href="/todo" onclick={ deleteTask }>x</a>
+      { task.title }
+    </li>
   </ul>
 
   <form onsubmit={ addTask } ref="newForm">
@@ -31,7 +34,7 @@
     addTask(e) {
       e.preventDefault()
 
-      var newForm = this.refs.newForm
+      let newForm = this.refs.newForm
       if (newForm.title) {
         fetch('/todo', {
           method: 'POST',
@@ -47,6 +50,18 @@
       }
       newForm.title.value = ''
       newForm.title.focus()
+    }
+
+    deleteTask(e) {
+      e.preventDefault()
+
+      let url = e.target.href
+      fetch(url, { method: 'DELETE' })
+      .then( response => {
+        if (response.ok) {
+          console.log('remove item')
+        }
+      })
     }
 
     this.on('mount', () => {

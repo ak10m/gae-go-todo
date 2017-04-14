@@ -63,27 +63,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(riot) {
-
-var _todo = __webpack_require__(2);
-
-var _todo2 = _interopRequireDefault(_todo);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-riot.mount('*');
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(riot) {/* Riot v3.4.1, @license MIT */
@@ -2837,18 +2821,18 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var riot = __webpack_require__(1);
+var riot = __webpack_require__(0);
 //src: src/js/tags/todo.tag
-riot.tag2('todo', '<h3>{opts.title || \'Your Tasks\'}</h3> <ul> <li each="{task, i in tasks}">{task.title}</li> </ul> <form onsubmit="{addTask}" ref="newForm"> <input name="title" placeholder="Task"> <button>Add</button> </form>', 'todo h3 { border-bottom: 2px solid grey; }', '', function (opts) {
+riot.tag2('todo', '<h3>{opts.title || \'Your Tasks\'}</h3> <ul> <li each="{task, i in tasks}"> <a href="/todo" onclick="{deleteTask}">x</a> {task.title} </li> </ul> <form onsubmit="{addTask}" ref="newForm"> <input name="title" placeholder="Task"> <button>Add</button> </form>', 'todo h3 { border-bottom: 2px solid grey; }', '', function (opts) {
   self = this;
 
   this.loadTasks = function () {
@@ -2879,10 +2863,37 @@ riot.tag2('todo', '<h3>{opts.title || \'Your Tasks\'}</h3> <ul> <li each="{task,
     newForm.title.focus();
   }.bind(this);
 
+  this.deleteTask = function (e) {
+    e.preventDefault();
+
+    var url = e.target.href;
+    fetch(url, { method: 'DELETE' }).then(function (response) {
+      if (response.ok) {
+        console.log('remove item');
+      }
+    });
+  }.bind(this);
+
   this.on('mount', function () {
     self.loadTasks();
   });
 });
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(riot) {
+
+var _todo = __webpack_require__(1);
+
+var _todo2 = _interopRequireDefault(_todo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+riot.mount('*');
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ })
 /******/ ]);

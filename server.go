@@ -11,6 +11,7 @@ type Task struct {
 }
 
 func init() {
+	// TODO routing
 	http.HandleFunc("/todo", handler)
 }
 
@@ -37,8 +38,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(201)
 		fmt.Fprintln(w, string(out))
+	case "DELETE":
+		// TODO delete task
+		w.WriteHeader(204)
 	default:
 		w.WriteHeader(400)
-		return
 	}
 }
