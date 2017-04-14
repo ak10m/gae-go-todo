@@ -55,11 +55,15 @@
     deleteTask(e) {
       e.preventDefault()
 
-      let url = e.target.href
+      let link = e.target
+      let url = link.href
+
       fetch(url, { method: 'DELETE' })
       .then( response => {
         if (response.ok) {
-          console.log('remove item')
+          let item = link.parentNode
+          let list = item.parentNode
+          list.removeChild(item)
         }
       })
     }

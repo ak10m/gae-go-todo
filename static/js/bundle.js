@@ -2866,10 +2866,14 @@ riot.tag2('todo', '<h3>{opts.title || \'Your Tasks\'}</h3> <ul> <li each="{task,
   this.deleteTask = function (e) {
     e.preventDefault();
 
-    var url = e.target.href;
+    var link = e.target;
+    var url = link.href;
+
     fetch(url, { method: 'DELETE' }).then(function (response) {
       if (response.ok) {
-        console.log('remove item');
+        var item = link.parentNode;
+        var list = item.parentNode;
+        list.removeChild(item);
       }
     });
   }.bind(this);
