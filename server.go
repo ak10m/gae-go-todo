@@ -4,10 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 type Task struct {
-	Title string `json:"title"`
+	Title     string    `json:"title"`
+	CreatedAt time.Time `json:"createdAt"`
 }
 
 type ErrorJson struct {
@@ -34,7 +36,10 @@ func resourcesHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintln(w, string(out))
 	case "POST":
-		task := newTask(r.FormValue("title"))
+		task := &Task{
+			Title:     r.FormValue("title"),
+			CreatedAt: time.Now(),
+		}
 		out, err := json.Marshal(task)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -54,6 +59,7 @@ func resourceHandler(w http.ResponseWriter, r *http.Request) {
 	taskId := "anyTaskId"
 	task := getTask(taskId)
 
+	// TODO handle not_found
 	if false {
 		errorResponse(w, http.StatusNotFound)
 		return
@@ -94,18 +100,24 @@ func errorResponse(w http.ResponseWriter, statusCode int) {
 
 func getTasks() []Task {
 	tasks := []Task{
-		{Title: "task 1"},
-		{Title: "task 2"},
+		{Title: "task 1", CreatedAt: time.Now()},
+		{Title: "task 2", CreatedAt: time.Now()},
 	}
 	return tasks
 }
 
 func getTask(id string) Task {
-	task := Task{Title: "task"}
+	task := Task{
+		Title:     "task",
+		CreatedAt: time.Now(),
+	}
 	return task
 }
 
 func newTask(title string) Task {
-	task := Task{Title: title}
+	task := Task{
+		Title:     title,
+		CreatedAt: time.Now(),
+	}
 	return task
 }
