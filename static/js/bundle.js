@@ -6,9 +6,9 @@
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -70,7 +70,7 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(riot) {/* Riot v3.4.1, @license MIT */
+/* WEBPACK VAR INJECTION */(function(riot) {/* Riot v3.4.2, @license MIT */
 (function (global, factory) {
 	 true ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -1266,6 +1266,12 @@ function updateExpression(expr) {
     }
   }
 
+  // remove original attribute
+  if (expr.attr && (!expr.isAttrRemoved || !value)) {
+    remAttr(dom, expr.attr);
+    expr.isAttrRemoved = true;
+  }
+
   // for the boolean attributes we don't need the value
   // we can convert it to checked=true to checked=checked
   if (expr.bool) { value = value ? attrName : false; }
@@ -1300,11 +1306,6 @@ function updateExpression(expr) {
     return
   }
 
-  // remove original attribute
-  if (!expr.isAttrRemoved || !value) {
-    remAttr(dom, expr.attr);
-    expr.isAttrRemoved = true;
-  }
 
   // event handler
   if (isFunction(value)) {
@@ -2087,7 +2088,7 @@ function unregister$1(name) {
   delete __TAG_IMPL[name];
 }
 
-var version$1 = 'v3.4.1';
+var version$1 = 'v3.4.2';
 
 
 var core = Object.freeze({
@@ -2403,9 +2404,6 @@ function Tag$1(impl, conf, innerHTML) {
       }
 
       if (p && !mustKeepRoot) { p.removeChild(el); }
-
-      // the data-is attributes isn't needed anymore, remove it
-      remAttr(el, IS_DIRECTIVE);
     }
 
     if (this.__.virts) {
@@ -2832,7 +2830,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var riot = __webpack_require__(0);
 //src: src/js/tags/todo.tag
-riot.tag2('todo', '<h3>{opts.title || \'Your Tasks\'}</h3> <ul> <li each="{task, i in tasks}"> <a href="/todo" onclick="{deleteTask}">x</a> {task.title} </li> </ul> <form onsubmit="{addTask}" ref="newForm"> <input name="title" placeholder="Task"> <button>Add</button> </form>', 'todo h3 { border-bottom: 2px solid grey; }', '', function (opts) {
+riot.tag2('todo', '<h3>{opts.title || \'Your Tasks\'}</h3> <ul> <li each="{task, i in tasks}"> <a href="/todo/:id" onclick="{deleteTask}">x</a> {task.title} </li> </ul> <form onsubmit="{addTask}" ref="newForm"> <input name="title" placeholder="Task"> <button>Add</button> </form>', 'todo h3 { border-bottom: 2px solid grey; }', '', function (opts) {
   self = this;
 
   this.loadTasks = function () {

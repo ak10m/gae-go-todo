@@ -2,12 +2,12 @@ package server
 
 import (
 	"encoding/json"
-	"fmt"
-	"net/http"
-	"time"
 	"errors"
+	"fmt"
 	"golang.org/x/net/context"
 	"google.golang.org/appengine"
+	"net/http"
+	"time"
 )
 
 type Task struct {
@@ -127,7 +127,7 @@ func GetTask(id string) Task {
 }
 
 func createTask(ctx context.Context, task Task) (string, error) {
-	if true {
+	if false {
 		return "", errors.New("Validation Error")
 	}
 	return "newId", nil

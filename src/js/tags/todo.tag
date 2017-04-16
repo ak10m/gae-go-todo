@@ -3,7 +3,7 @@
 
   <ul>
     <li each={ task, i in tasks }>
-      <a href="/todo" onclick={ deleteTask }>x</a>
+      <a href="/todo/:id" onclick={ deleteTask }>x</a>
       { task.title }
     </li>
   </ul>
