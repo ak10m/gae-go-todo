@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+	"errors"
+	"golang.org/x/net/context"
+	"google.golang.org/appengine"
 )
 
 type Task struct {
@@ -18,16 +21,18 @@ type ErrorJson struct {
 
 func init() {
 	// TODO routing
-	http.HandleFunc("/todo", resourcesHandler)
-	http.HandleFunc("/todo/:id", resourceHandler)
+	http.HandleFunc("/todo", ResourcesHandler)
+	http.HandleFunc("/todo/:id", ResourceHandler)
 }
 
-func resourcesHandler(w http.ResponseWriter, r *http.Request) {
+func ResourcesHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+
 	w.Header().Set("Content-Type", "application/json")
 
 	switch r.Method {
-	case "GET":
-		tasks := getTasks()
+	case http.MethodGet:
+		tasks := GetTasks()
 		out, err := json.Marshal(tasks)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -35,11 +40,18 @@ func resourcesHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintln(w, string(out))
-	case "POST":
-		task := &Task{
+	case http.MethodPost:
+		task := Task{
 			Title:     r.FormValue("title"),
 			CreatedAt: time.Now(),
 		}
+		_, err := createTask(ctx, task)
+
+		if err != nil {
+			ErrorResponse(w, 422)
+			return
+		}
+
 		out, err := json.Marshal(task)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -49,24 +61,24 @@ func resourcesHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusCreated)
 		fmt.Fprintln(w, string(out))
 	default:
-		errorResponse(w, http.StatusMethodNotAllowed)
+		ErrorResponse(w, http.StatusMethodNotAllowed)
 	}
 }
 
-func resourceHandler(w http.ResponseWriter, r *http.Request) {
+func ResourceHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	taskId := "anyTaskId"
-	task := getTask(taskId)
+	task := GetTask(taskId)
 
 	// TODO handle not_found
 	if false {
-		errorResponse(w, http.StatusNotFound)
+		ErrorResponse(w, http.StatusNotFound)
 		return
 	}
 
 	switch r.Method {
-	case "GET":
+	case http.MethodGet:
 		out, err := json.Marshal(task)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -74,7 +86,7 @@ func resourceHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintln(w, string(out))
-	case "PUT":
+	case http.MethodPut:
 		// TODO update task
 		out, err := json.Marshal(task)
 		if err != nil {
@@ -83,22 +95,22 @@ func resourceHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(http.StatusAccepted)
 		fmt.Fprintln(w, string(out))
-	case "DELETE":
+	case http.MethodDelete:
 		// TODO delete task
 		w.WriteHeader(http.StatusNoContent)
 	default:
-		errorResponse(w, http.StatusMethodNotAllowed)
+		ErrorResponse(w, http.StatusMethodNotAllowed)
 	}
 }
 
-func errorResponse(w http.ResponseWriter, statusCode int) {
+func ErrorResponse(w http.ResponseWriter, statusCode int) {
 	w.WriteHeader(statusCode)
 	e := ErrorJson{Message: http.StatusText(statusCode)}
 	out, _ := json.Marshal(e)
 	fmt.Fprintln(w, string(out))
 }
 
-func getTasks() []Task {
+func GetTasks() []Task {
 	tasks := []Task{
 		{Title: "task 1", CreatedAt: time.Now()},
 		{Title: "task 2", CreatedAt: time.Now()},
@@ -106,7 +118,7 @@ func getTasks() []Task {
 	return tasks
 }
 
-func getTask(id string) Task {
+func GetTask(id string) Task {
 	task := Task{
 		Title:     "task",
 		CreatedAt: time.Now(),
@@ -114,10 +126,9 @@ func getTask(id string) Task {
 	return task
 }
 
-func newTask(title string) Task {
-	task := Task{
-		Title:     title,
-		CreatedAt: time.Now(),
+func createTask(ctx context.Context, task Task) (string, error) {
+	if true {
+		return "", errors.New("Validation Error")
 	}
-	return task
+	return "newId", nil
 }
