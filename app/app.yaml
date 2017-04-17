@@ -6,6 +6,7 @@ nobuild_files:
 
 skip_files:
 - ^node_modules$
+- vendor/
 
 handlers:
 - url: /$
