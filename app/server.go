@@ -32,7 +32,7 @@ func ResourcesHandler(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case http.MethodGet:
-		tasks := GetTasks()
+		tasks := GetTasks(ctx)
 		out, err := json.Marshal(tasks)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -40,6 +40,7 @@ func ResourcesHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintln(w, string(out))
+
 	case http.MethodPost:
 		task := Task{
 			Title:     r.FormValue("title"),
@@ -60,16 +61,19 @@ func ResourcesHandler(w http.ResponseWriter, r *http.Request) {
 		// TODO create task
 		w.WriteHeader(http.StatusCreated)
 		fmt.Fprintln(w, string(out))
+
 	default:
 		ErrorResponse(w, http.StatusMethodNotAllowed)
 	}
 }
 
 func ResourceHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+
 	w.Header().Set("Content-Type", "application/json")
 
 	taskId := "anyTaskId"
-	task := GetTask(taskId)
+	task := GetTask(ctx, taskId)
 
 	// TODO handle not_found
 	if false {
@@ -86,6 +90,7 @@ func ResourceHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintln(w, string(out))
+
 	case http.MethodPut:
 		// TODO update task
 		out, err := json.Marshal(task)
@@ -95,9 +100,11 @@ func ResourceHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(http.StatusAccepted)
 		fmt.Fprintln(w, string(out))
+
 	case http.MethodDelete:
 		// TODO delete task
 		w.WriteHeader(http.StatusNoContent)
+
 	default:
 		ErrorResponse(w, http.StatusMethodNotAllowed)
 	}
@@ -110,7 +117,7 @@ func ErrorResponse(w http.ResponseWriter, statusCode int) {
 	fmt.Fprintln(w, string(out))
 }
 
-func GetTasks() []Task {
+func GetTasks(ctx context.Context) []Task {
 	tasks := []Task{
 		{Title: "task 1", CreatedAt: time.Now()},
 		{Title: "task 2", CreatedAt: time.Now()},
@@ -118,7 +125,7 @@ func GetTasks() []Task {
 	return tasks
 }
 
-func GetTask(id string) Task {
+func GetTask(ctx context.Context, id string) Task {
 	task := Task{
 		Title:     "task",
 		CreatedAt: time.Now(),
