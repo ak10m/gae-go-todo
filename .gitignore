@@ -70,3 +70,6 @@ vendor/
 
 # node
 node_modules/
+
+# direnv
+.envrc

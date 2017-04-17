@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gcloud app deploy --project todo-164010 --version $(git log -n 1 --format=%H)
+gcloud app deploy --project $GCP_PROJECT_ID --version $(git log -n 1 --format=%H) app/app.yaml

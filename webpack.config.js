@@ -3,7 +3,7 @@ const webpack = require('webpack')
 module.exports = [{
   entry: './src/js/app.js',
   output: {
-    path: __dirname + '/static/js/',
+    path: __dirname + '/app/static/js/',
     filename: 'bundle.js'
   },
   module: {
